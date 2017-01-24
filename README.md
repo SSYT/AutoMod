@@ -1,7 +1,9 @@
 # List of modules
+[![SSYT](http://i.imgur.com/zF1uZyg.png)](https://ssyt.github.io/FG-Modules/)
 
-1. [Total Redirects](https://github.com/SSYT/FG-Modules/releases/tag/fa_module_tr)
-2. [Last Register Members Widget](https://github.com/SSYT/FG-Modules/releases/tag/fa_module_lrmw)
+
+1. [Top Five](https://github.com/SSYT/FG-Modules/releases/tag/top_five)
+2. [Last Register Members Today Widget](https://github.com/SSYT/FG-Modules/releases/tag/fa_module_lrmw)
 
 ## AUTOMATED TESTING
 * N/A - Latest development version
