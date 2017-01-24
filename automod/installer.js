@@ -1,17 +1,18 @@
 /*
-  @automod AutoMod Installer
+  @desc AutoMod Installer
   @author SSYT
+  @version 1.0a
 */
 
 $(function() {
 	if(!window.FA) window.FA = {};
-  if(window.FA.Install)
-  {
-    if(window.console)
-       console.warn("Auto mod has been detected running...");
-    return true;
-  }
-     
+	if(window.FA.Install)
+	{
+		if(window.console)
+			console.warn("Auto mod has been detected running...");
+		return true;
+	}
+
 	window.FA.Install = {
 		autoMod: true,
 		message: "",
@@ -31,6 +32,12 @@ $(function() {
 		
 		install: {
 			steep: function(moduleID, steepID) {
+				// Add AutoMod Page
+				if(FA.Install.autoMod == true && moduleID == 99 && steepID == 1)
+				{
+					
+				}
+				
 				// T.R (Total Redirects)
 				if(FA.Install.autoMod == true && moduleID == 1 && steepID == 1)
 				{
@@ -62,7 +69,7 @@ $(function() {
 				
 				if(FA.Install.autoMod == true && moduleID == 3 && steepID == 2)
 				{
-					$('.install_steep').append('Steep 1: Widgets have been activated successfully<br />');
+					$('.install_steep').append('Steep 1: Widgets have been activated successfully<br /><br />');
 					$('.install_steep').append('Steep 2: Add widget Recent Topics ...<br />');
 					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + FA.Install.TID, {
 						"action": "addnew",
@@ -81,7 +88,7 @@ $(function() {
 				if(FA.Install.autoMod == true && moduleID == 3 && steepID == 3)
 				{
 					$('.install_steep').append('Steep 2: Recently Widget topic was successfully activated<br />');
-					$('.install_steep').append('Steep 3: Add widget top posters ...<br />');
+					$('.install_steep').append('Steep 3: Add widget top posters ...<br /><br />');
 					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + FA.Install.TID, {
 						"action": "addnew",
 						"modid": 15,
@@ -98,7 +105,7 @@ $(function() {
 				
 				if(FA.Install.autoMod == true && moduleID == 3 && steepID == 4)
 				{
-					$('.install_steep').append('Steep 3: Widget top post was successfully activated ...<br />');
+					$('.install_steep').append('Steep 3: Widget top post was successfully activated ...<br /><br />');
 					$('.install_steep').append('Steep 4: Index_body generation templates ...<br />');
 					
 					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/automod/topfive/index_body.tpl', function(response, status, xhr) {
@@ -124,7 +131,7 @@ $(function() {
 				
 				if(FA.Install.autoMod == true && moduleID == 3 && steepID == 5)
 				{
-					$('.install_steep').append('Steep 4: Index_body templates has been successfully installed<br />');
+					$('.install_steep').append('Steep 4: Index_body templates has been successfully installed<br /><br />');
 					$('.install_steep').append('Steep 5: Recent topics generation templates ...<br />');
 					
 					var template = "";
@@ -150,7 +157,7 @@ $(function() {
 				
 				if(FA.Install.autoMod == true && moduleID == 3 && steepID == 6)
 				{
-					$('.install_steep').append('Steep 5: Recent topics templates has been successfully installed<br />');
+					$('.install_steep').append('Steep 5: Recent topics templates has been successfully installed<br /><br />');
 					$('.install_steep').append('Steep 6: Top posters generation templates ...<br />');
 					var template = "";
 					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/automod/topfive/index_body.tpl', function(d) {
@@ -175,7 +182,7 @@ $(function() {
 				
 				if(FA.Install.autoMod == true && moduleID == 3 && steepID == 7)
 				{
-					$('.install_steep').append('Steep 6: Top posters templates has been successfully installed<br />');
+					$('.install_steep').append('Steep 6: Top posters templates has been successfully installed<br /><br />');
 					$('.install_steep').append('Steep 7: Script code generation module...<br />');
 					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/automod/topfive/version/BB3.js', function(response, status, xhr) {
 						if (xhr.status == 200) {
