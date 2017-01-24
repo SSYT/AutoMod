@@ -2,7 +2,7 @@
 	@ Module of Automod Installer
 	@ https://ssyt.github.io/AutoMod/
 	@ Script created and develop by SSYT 2.0
-	@name Top Five Mod
+	@modname Top Five
 */
 
 !function() {
@@ -29,7 +29,9 @@
             moduleName: 'Top Five',
             version: 1,
             language: 'en'
-	  }
+	  },
+
+	  extension: {}
 	}
   };
   document.write('');
