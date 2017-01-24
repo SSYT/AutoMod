@@ -444,7 +444,7 @@ $(function() {
 			$('div#faInstall form[name="install"] input[name="post"]').on("click", function(e) {
 				e.preventDefault();
 				
-				if(str == 0)
+				if(str == 99)
 				{
 					$('div#faInstall form[name="install"] .desc').after("<font class='font-desc' color='red'>* Pentru acest modul nu este disponibila instalarea</font>");
 					setTimeout(function() {
@@ -480,14 +480,21 @@ $(function() {
 					} else {
 						var r = confirm("Se pare ca aveti deja acest template (index_body) modificat, doriti supra scrierea lui?");
 						if (r == true) {
-							x = "Nu";
+							FA.Install.install.steep(2, 1, 1);
 						} else {
-							x = "Voi adauga eu codurile necesare";
+							FA.Install.install.steep(2, 1, 1);
 							localStorage.setItem('next', 1);
 							localStorage.setItem('notif', 1);
 						}
 					}
-				} else if(ver == 2 && $('body[bgcolor]').length)
+				} else if (ver == 1 && !$('body#phpbb').length) {
+					$('div#faInstall form[name="install"] .desc').after("<font class='font-desc' color='red'>* Nu se poate efectua instalarea</font>");
+					setTimeout(function() {
+						$('.font-desc').remove();
+					}, 3000);
+				}
+				
+				if(ver == 2 && $('body[bgcolor]').length)
 				{
 					if(FA.Install.checkTemplate.result(1, 'index_body', 1) == false)
 					{
@@ -502,6 +509,11 @@ $(function() {
 							localStorage.setItem('notif', 1);
 						}
 					}
+				} else if(ver == 2 && !$('body[bgcolor]').length) {
+					$('div#faInstall form[name="install"] .desc').after("<font class='font-desc' color='red'>* Nu se poate efectua instalarea</font>");
+					setTimeout(function() {
+						$('.font-desc').remove();
+					}, 3000);
 				}
 			});
 		}
