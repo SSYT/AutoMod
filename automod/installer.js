@@ -408,7 +408,7 @@ $(function() {
 
 				if(str == 2)
 				{
-                    FA.Install.module.topFive.install();
+                    			FA.Install.module.topFive.install();
 				}
 				
 				$('select#faSelectVer').on('change', function() {
