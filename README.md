@@ -1,4 +1,4 @@
-[![SSYT](http://i.imgur.com/zF1uZyg.png)](https://ssyt.github.io/FG-Modules/)
+[![SSYT](http://i.imgur.com/zF1uZyg.png)](https://ssyt.github.io/AutoMod/)
 
 # List of modules
 
