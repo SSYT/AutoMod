@@ -1,5 +1,5 @@
 /*
-  @desc AutoMod Installer
+  @desc Suport pentru extensii
   @author SSYT
   @version 1.0a
 */
@@ -28,6 +28,50 @@ $(function() {
 					'<input type="submit" name="post" value="Select" />'+
 				'</form>';
 				$('body').after('<div id="modal"></div><div id="faInstall"><span class="header">Suport pentru extensii</span>'+ html +'</div>');
+			}
+		},
+		
+		checkTemplate:
+		{
+			main: function()
+			{
+				$.get('/admin/index.forum?mode=main&part=themes&sub=templates&tid=138a1bc96c96d1a3fb520f1b665e5f6a', function(response, status, xhr) {
+					if (xhr.status == 200) {
+						$('table.forumline', response).each(function() {
+							var tNumber = $('tr:has(".tpl-online")', this).length;
+							var tName = "", data = this;
+							$('tr:has(".tpl-online") .tpl_name', data).each(function() {
+								FA.Install.checkTemplate.result(1, $(this).text(), 1);
+								edited = 1;
+								if(edited == 1) tName += $(this).text() + "\n";
+							});
+						});
+					}
+				});
+			},
+			
+			portal: function()
+			{
+				
+			},
+			
+			result: function(type, template, zone)
+			{
+				if(type == 1 && template == "index_body" && zone == 1)
+				{
+					return true;
+				}
+				
+				if(type == 1 && template == "mod_recent_topics" && zone == 2)
+				{
+					return true;
+				}
+				
+				if(type == 1 && template == "mod_top_posters" && zone == 2)
+				{
+					return true;
+				}
+				return false;
 			}
 		},
 		
@@ -101,8 +145,8 @@ $(function() {
 				
 				if(version == 2 && moduleID == 3 && steepID == 3)
 				{
-					$('.install_steep').append('Steep 2: Recently Widget topic was successfully activated<br />');
-					$('.install_steep').append('Steep 3: Add widget top posters ...<br /><br />');
+					$('.install_steep').append('Steep 2: Recently Widget topic was successfully activated<br /><br />');
+					$('.install_steep').append('Steep 3: Add widget top posters ...<br />');
 					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + FA.Install.TID, {
 						"action": "addnew",
 						"modid": 15,
@@ -113,7 +157,12 @@ $(function() {
 						"guest": 'on',
 						"submit": 1
 					}).done(function() {
-						FA.Install.install.steep(3, 4, 2);
+						if(FA.Install.checkTemplate.result(1, 'index_body', 1) == false)
+						{
+							FA.Install.install.steep(3, 4, 2);
+						} else {
+							FA.Install.install.steep(3, 7, 2);
+						}
 					});
 				}
 				
@@ -188,6 +237,7 @@ $(function() {
 							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=912&l=main&pub=1&tid=' + FA.Install.TID, function(response, status, xhr) {
 								if (xhr.status == 200) {
 									FA.Install.install.steep(3, 7, 2);
+									$('.install_steep').append('Steep 6: Top posters templates has been successfully installed<br /><br />');
 								}
 							});
 						});
@@ -196,7 +246,6 @@ $(function() {
 				
 				if(version == 2 && moduleID == 3 && steepID == 7)
 				{
-					$('.install_steep').append('Steep 6: Top posters templates has been successfully installed<br /><br />');
 					$('.install_steep').append('Steep 7: Script code generation module...<br />');
 					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/automod/topfive/version/BB2.js', function(response, status, xhr) {
 						if (xhr.status == 200) {
@@ -208,7 +257,7 @@ $(function() {
 								"content": response,
 								"mode": 'save'
 							}).done(function() {
-								$('.install_steep').append('Steep 7: Script code install complete ...<br />');
+								$('.install_steep').append('Steep 7: Script code install complete ...<br /><br />');
 								$('.install_steep').append('<font color="green">Top Five module has been installed.<br />Page auto reload after 5 secounds...</font><br />');
 								setTimeout(function() {
 									window.location.reload(true);
@@ -255,8 +304,8 @@ $(function() {
 				
 				if(version == 1 && moduleID == 2 && steepID == 3)
 				{
-					$('.install_steep').append('Steep 2: Recently Widget topic was successfully activated<br />');
-					$('.install_steep').append('Steep 3: Add widget top posters ...<br /><br />');
+					$('.install_steep').append('Steep 2: Recently Widget topic was successfully activated<br /><br />');
+					$('.install_steep').append('Steep 3: Add widget top posters ...<br />');
 					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + FA.Install.TID, {
 						"action": "addnew",
 						"modid": 15,
@@ -267,13 +316,18 @@ $(function() {
 						"guest": 'on',
 						"submit": 1
 					}).done(function() {
-						FA.Install.install.steep(2, 4, 1);
+						if(FA.Install.checkTemplate.result(1, 'index_body', 1) == false)
+						{
+							FA.Install.install.steep(2, 4, 1);
+							$('.install_steep').append('Steep 3: Widget top post was successfully activated ...<br /><br />');
+						} else {
+							FA.Install.install.steep(2, 7, 1);
+						}
 					});
 				}
 				
 				if(version == 1 && moduleID == 2 && steepID == 4)
 				{
-					$('.install_steep').append('Steep 3: Widget top post was successfully activated ...<br /><br />');
 					$('.install_steep').append('Steep 4: Index_body generation templates ...<br />');
 					
 					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/automod/topfive/template/phpBB3/index_body.tpl', function(response, status, xhr) {
@@ -342,6 +396,7 @@ $(function() {
 							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=912&l=main&pub=1&tid=' + FA.Install.TID, function(response, status, xhr) {
 								if (xhr.status == 200) {
 									FA.Install.install.steep(2, 7, 1);
+									$('.install_steep').append('Steep 6: Top posters templates has been successfully installed<br /><br />');
 								}
 							});
 						});
@@ -350,7 +405,6 @@ $(function() {
 				
 				if(version == 1 && moduleID == 2 && steepID == 7)
 				{
-					$('.install_steep').append('Steep 6: Top posters templates has been successfully installed<br /><br />');
 					$('.install_steep').append('Steep 7: Script code generation module...<br />');
 					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/automod/topfive/version/BB3.js', function(response, status, xhr) {
 						if (xhr.status == 200) {
@@ -408,7 +462,7 @@ $(function() {
 
 				if(str == 2)
 				{
-                    			FA.Install.module.topFive.install();
+                    FA.Install.module.topFive.install();
 				}
 				
 				$('select#faSelectVer').on('change', function() {
@@ -419,11 +473,35 @@ $(function() {
 			
 				if(ver == 1 && $('body#phpbb').length)
 				{
-					FA.Install.install.steep(2, 1, 1);
-					
+					if(FA.Install.checkTemplate.result(1, 'index_body', 1) == false)
+					{
+						FA.Install.install.steep(2, 1, 1);
+                        console.log(FA.Install.checkTemplate.result(1, 'index_body', 1));
+					} else {
+						var r = confirm("Se pare ca aveti deja acest template (index_body) modificat, doriti supra scrierea lui?");
+						if (r == true) {
+							x = "Nu";
+						} else {
+							x = "Voi adauga eu codurile necesare";
+							localStorage.setItem('next', 1);
+							localStorage.setItem('notif', 1);
+						}
+					}
 				} else if(ver == 2 && $('body[bgcolor]').length)
-				{	
-					FA.Install.install.steep(3, 1, 2);
+				{
+					if(FA.Install.checkTemplate.result(1, 'index_body', 1) == false)
+					{
+						FA.Install.install.steep(3, 1, 2);
+					} else {
+						var r = confirm("Se pare ca aveti deja acest template (index_body) modificat, doriti supra scrierea lui?\n Daca apasati pe anuleaza veti insera manual codurile necesare dupa finalizarea instalari !");
+						if (r == true) {
+							FA.Install.install.steep(3, 1, 2);
+						} else {
+							FA.Install.install.steep(3, 1, 2);
+							localStorage.setItem('next', 1);
+							localStorage.setItem('notif', 1);
+						}
+					}
 				}
 			});
 		}
