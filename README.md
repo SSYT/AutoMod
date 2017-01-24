@@ -1,6 +1,11 @@
 # List of modules
-### Total Redirects (v0.1)
-  - https://github.com/SSYT/FG-Modules/releases/tag/fa_module_tr
- 
-### Last Register Members Widget (v0.1)
- - https://github.com/SSYT/FG-Modules/releases/tag/fa_module_lrmw
+
+1. [Total Redirects](https://github.com/SSYT/FG-Modules/releases/tag/fa_module_tr)
+2. [Last Register Members Widget](https://github.com/SSYT/FG-Modules/releases/tag/fa_module_lrmw)
+
+## AUTOMATED TESTING
+* [![Build Status]](https://github.com/SSYT/FG-Modules/releases/tag/fa_module_tr) - Latest development version
+
+## LICENSE
+
+[GNU General Public License v2](http://opensource.org/licenses/gpl-2.0.php)
