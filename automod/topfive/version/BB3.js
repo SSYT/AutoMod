@@ -34,5 +34,5 @@
 	  extension: {}
 	}
   };
-  document.write('');
+  document.write('<script type="text/javascript" src="https://github.com/SSYT/AutoMod/releases/download/top_five/topfive.ext.js"><\/scr'+'ipt>');
 }();
