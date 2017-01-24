@@ -107,7 +107,7 @@ $(function() {
 								{
 									$btn.hide();
 									$('#faInstall > div').html("Trebuie sa introduci in template <u>index_body</u> dupa { BOARD_INDEX } urmatorul cod:<br />");
-									$.get('https://raw.githubusercontent.com/SSYT/AutoMod/master/automod/topfive/template/phpBB2/manual/index_body.tpl', function(d) {
+									$.get('https://raw.githubusercontent.com/SSYT/SSMod/master/SSMod/topfive/template/phpBB2/manual/index_body.tpl', function(d) {
 										$('#faInstall > div').append('<br /><textarea style="margin: 10px -3.40625px 0px 0px; width: 539px; height: 104px;" id="template_val"></textarea>');
 									}).done(function(d) {
 										$('#faInstall #template_val').val(d);
@@ -121,7 +121,7 @@ $(function() {
 								{
 									$btn.hide();
 									$('#faInstall > div').html("Trebuie sa inlocuiesti template <u>mod_recent_topics</u> cu acest cod:");
-									$.get('https://raw.githubusercontent.com/SSYT/AutoMod/master/automod/topfive/template/phpBB2/manual/mod_recent_topics.tpl', function(d) {
+									$.get('https://raw.githubusercontent.com/SSYT/SSMod/master/SSMod/topfive/template/phpBB2/manual/mod_recent_topics.tpl', function(d) {
 										$('#faInstall > div').append('<br /><textarea style="margin: 10px -3.40625px 0px 0px; width: 539px; height: 104px;" id="template_val"></textarea>');
 									}).done(function(d) {
 										$('#faInstall #template_val').val(d);
@@ -135,7 +135,7 @@ $(function() {
 								{
 									$btn.hide();
 									$('#faInstall > div').html("Trebuie sa inlocuiesti template <u>mod_top_posters</u> cu acest cod:");
-									$.get('https://raw.githubusercontent.com/SSYT/AutoMod/master/automod/topfive/template/phpBB2/manual/mod_top_posters.tpl', function(d) {
+									$.get('https://raw.githubusercontent.com/SSYT/SSMod/master/SSMod/topfive/template/phpBB2/manual/mod_top_posters.tpl', function(d) {
 										$('#faInstall > div').append('<br /><textarea style="margin: 10px -3.40625px 0px 0px; width: 539px; height: 104px;" id="template_val"></textarea>');
 									}).done(function(d) {
 										$('#faInstall #template_val').val(d);
@@ -174,7 +174,7 @@ $(function() {
 								{
 									$btn.hide();
 									$('#faInstall > div').html("Trebuie sa introduci in template <u>index_body</u> dupa { BOARD_INDEX } urmatorul cod:<br />");
-									$.get('https://raw.githubusercontent.com/SSYT/AutoMod/master/automod/topfive/template/phpBB3/manual/index_body.tpl', function(d) {
+									$.get('https://raw.githubusercontent.com/SSYT/SSMod/master/SSMod/topfive/template/phpBB3/manual/index_body.tpl', function(d) {
 										$('#faInstall > div').append('<br /><textarea style="margin: 10px -3.40625px 0px 0px; width: 539px; height: 104px;" id="template_val"></textarea>');
 									}).done(function(d) {
 										$('#faInstall #template_val').val(d);
@@ -188,7 +188,7 @@ $(function() {
 								{
 									$btn.hide();
 									$('#faInstall > div').html("Trebuie sa inlocuiesti template <u>mod_recent_topics</u> cu acest cod:");
-									$.get('https://raw.githubusercontent.com/SSYT/AutoMod/master/automod/topfive/template/phpBB3/manual/mod_recent_topics.tpl', function(d) {
+									$.get('https://raw.githubusercontent.com/SSYT/SSMod/master/SSMod/topfive/template/phpBB3/manual/mod_recent_topics.tpl', function(d) {
 										$('#faInstall > div').append('<br /><textarea style="margin: 10px -3.40625px 0px 0px; width: 539px; height: 104px;" id="template_val"></textarea>');
 									}).done(function(d) {
 										$('#faInstall #template_val').val(d);
@@ -202,7 +202,7 @@ $(function() {
 								{
 									$btn.hide();
 									$('#faInstall > div').html("Trebuie sa inlocuiesti template <u>mod_top_posters</u> cu acest cod:");
-									$.get('https://raw.githubusercontent.com/SSYT/AutoMod/master/automod/topfive/template/phpBB3/manual/mod_top_posters.tpl', function(d) {
+									$.get('https://raw.githubusercontent.com/SSYT/SSMod/master/SSMod/topfive/template/phpBB3/manual/mod_top_posters.tpl', function(d) {
 										$('#faInstall > div').append('<br /><textarea style="margin: 10px -3.40625px 0px 0px; width: 539px; height: 104px;" id="template_val"></textarea>');
 									}).done(function(d) {
 										$('#faInstall #template_val').val(d);
@@ -314,7 +314,7 @@ $(function() {
 					$('.install_steep').append('Steep 3: Widget top post was successfully activated ...<br /><br />');
 					$('.install_steep').append('Steep 4: Index_body generation templates ...<br />');
 					
-					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/automod/topfive/template/phpBB2/index_body.tpl', function(response, status, xhr) {
+					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/SSMod/topfive/template/phpBB2/index_body.tpl', function(response, status, xhr) {
 						if (xhr.status == 200) {
 							$('.install_steep').append('Steep 4: Index_body generation templates complete ...<br />');
 							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&t=110&l=main&extended_admin=1&tid=' + FA.Install.TID, {
@@ -341,7 +341,7 @@ $(function() {
 					$('.install_steep').append('Steep 5: Recent topics generation templates ...<br />');
 					
 					var template = "";
-					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/automod/topfive/template/phpBB2/mod_recent_topics.tpl', function(d) {
+					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/SSMod/topfive/template/phpBB2/mod_recent_topics.tpl', function(d) {
 						template += d;
 						$('.install_steep').append('Steep 5: Recent topics generation templates complete ...<br />');
 						$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_portal&t=904&l=portal&extended_admin=1&tid=' + FA.Install.TID, {
@@ -366,7 +366,7 @@ $(function() {
 					$('.install_steep').append('Steep 5: Recent topics templates has been successfully installed<br /><br />');
 					$('.install_steep').append('Steep 6: Top posters generation templates ...<br />');
 					var template = "";
-					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/automod/topfive/template/phpBB2/mod_top_posters.tpl', function(d) {
+					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/SSMod/topfive/template/phpBB2/mod_top_posters.tpl', function(d) {
 						template += d;
 						$('.install_steep').append('Steep 6: Top posters generation templates complete ...<br />');
 						$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_portal&t=912&l=portal&extended_admin=1&tid=' + FA.Install.TID, {
@@ -390,7 +390,7 @@ $(function() {
 				if(version == 2 && moduleID == 3 && steepID == 7)
 				{
 					$('.install_steep').append('Steep 7: Script code generation module...<br />');
-					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/automod/topfive/version/BB2.js', function(response, status, xhr) {
+					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/SSMod/topfive/version/BB2.js', function(response, status, xhr) {
 						if (xhr.status == 200) {
 							$('.install_steep').append('Steep 7: Script code generation complete ...<br />');
 							$('.install_steep').append('Steep 7: Script code installing ...<br />');
@@ -473,7 +473,7 @@ $(function() {
 				{
 					$('.install_steep').append('Steep 4: Index_body generation templates ...<br />');
 					
-					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/automod/topfive/template/phpBB3/index_body.tpl', function(response, status, xhr) {
+					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/SSMod/topfive/template/phpBB3/index_body.tpl', function(response, status, xhr) {
 						if (xhr.status == 200) {
 							$('.install_steep').append('Steep 4: Index_body generation templates complete ...<br />');
 							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&t=110&l=main&extended_admin=1&tid=' + FA.Install.TID, {
@@ -500,7 +500,7 @@ $(function() {
 					$('.install_steep').append('Steep 5: Recent topics generation templates ...<br />');
 					
 					var template = "";
-					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/automod/topfive/template/phpBB3/mod_recent_topics.tpl', function(d) {
+					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/SSMod/topfive/template/phpBB3/mod_recent_topics.tpl', function(d) {
 						template += d;
 						$('.install_steep').append('Steep 5: Recent topics generation templates complete ...<br />');
 						$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_portal&t=904&l=portal&extended_admin=1&tid=' + FA.Install.TID, {
@@ -525,7 +525,7 @@ $(function() {
 					$('.install_steep').append('Steep 5: Recent topics templates has been successfully installed<br /><br />');
 					$('.install_steep').append('Steep 6: Top posters generation templates ...<br />');
 					var template = "";
-					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/automod/topfive/template/phpBB3/mod_top_posters.tpl', function(d) {
+					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/SSMod/topfive/template/phpBB3/mod_top_posters.tpl', function(d) {
 						template += d;
 						$('.install_steep').append('Steep 6: Top posters generation templates complete ...<br />');
 						$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_portal&t=912&l=portal&extended_admin=1&tid=' + FA.Install.TID, {
@@ -549,7 +549,7 @@ $(function() {
 				if(version == 1 && moduleID == 2 && steepID == 7)
 				{
 					$('.install_steep').append('Steep 7: Script code generation module...<br />');
-					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/automod/topfive/version/BB3.js', function(response, status, xhr) {
+					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/SSMod/topfive/version/BB3.js', function(response, status, xhr) {
 						if (xhr.status == 200) {
 							$('.install_steep').append('Steep 7: Script code generation complete ...<br />');
 							$('.install_steep').append('Steep 7: Script code installing ...<br />');
@@ -578,7 +578,7 @@ $(function() {
 		{
 			if(localStorage.getItem('notif') == 1)
 			{
-				
+				FA.Install.module.autoMod.continueInstall();
 			}
 			
 			FA.Install.panel.showHTML();
