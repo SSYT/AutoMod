@@ -101,8 +101,8 @@ $(function() {
 				
 				if(version == 2 && moduleID == 3 && steepID == 3)
 				{
-					$('.install_steep').append('Steep 2: Recently Widget topic was successfully activated<br /><br />');
-					$('.install_steep').append('Steep 3: Add widget top posters ...<br />');
+					$('.install_steep').append('Steep 2: Recently Widget topic was successfully activated<br />');
+					$('.install_steep').append('Steep 3: Add widget top posters ...<br /><br />');
 					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + FA.Install.TID, {
 						"action": "addnew",
 						"modid": 15,
@@ -208,7 +208,7 @@ $(function() {
 								"content": response,
 								"mode": 'save'
 							}).done(function() {
-								$('.install_steep').append('Steep 7: Script code install complete ...<br /><br />');
+								$('.install_steep').append('Steep 7: Script code install complete ...<br />');
 								$('.install_steep').append('<font color="green">Top Five module has been installed.<br />Page auto reload after 5 secounds...</font><br />');
 								setTimeout(function() {
 									window.location.reload(true);
@@ -255,8 +255,8 @@ $(function() {
 				
 				if(version == 1 && moduleID == 2 && steepID == 3)
 				{
-					$('.install_steep').append('Steep 2: Recently Widget topic was successfully activated<br /><br />');
-					$('.install_steep').append('Steep 3: Add widget top posters ...<br />');
+					$('.install_steep').append('Steep 2: Recently Widget topic was successfully activated<br />');
+					$('.install_steep').append('Steep 3: Add widget top posters ...<br /><br />');
 					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + FA.Install.TID, {
 						"action": "addnew",
 						"modid": 15,
