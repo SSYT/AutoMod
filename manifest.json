@@ -1,0 +1,24 @@
+{
+	
+	"name": "SSMod",
+	"version": "1.0",
+	"manifest_version": 2,
+	"description": "Support extensions for Forumotion",
+
+    "content_scripts": [
+        {
+            "matches": [ "*://*/admin*"],
+            "css":["style.css"],
+            "js":["js/jquery.js", "js/include.js"],
+            "all_frames": true,
+            "run_at": "document_end"
+        }
+         
+    ],
+    "permissions": [ "<all_urls>", "storage" ],
+    	"browser_action": 
+		{
+			"default_icon": "icon.png",
+			"default_popup": "popup.html"
+		}
+}
