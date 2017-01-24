@@ -35,15 +35,13 @@ $(function() {
 		{
 			main: function()
 			{
-				$.get('/admin/index.forum?mode=main&part=themes&sub=templates&tid=138a1bc96c96d1a3fb520f1b665e5f6a', function(response, status, xhr) {
+				$.get('/admin/index.forum?mode=main&part=themes&sub=templates&tid=' + FA.Install.TID, function(response, status, xhr) {
 					if (xhr.status == 200) {
 						$('table.forumline', response).each(function() {
 							var tNumber = $('tr:has(".tpl-online")', this).length;
-							var tName = "", data = this;
+							var data = this;
 							$('tr:has(".tpl-online") .tpl_name', data).each(function() {
 								FA.Install.checkTemplate.result(1, $(this).text(), 1);
-								edited = 1;
-								if(edited == 1) tName += $(this).text() + "\n";
 							});
 						});
 					}
@@ -52,7 +50,17 @@ $(function() {
 			
 			portal: function()
 			{
-				
+				$.get('/admin/index.forum?mode=portal&part=themes&sub=templates&tid=' + FA.Install.TID, function(response, status, xhr) {
+					if (xhr.status == 200) {
+						$('table.forumline', response).each(function() {
+							var tNumber = $('tr:has(".tpl-online")', this).length;
+							var data = this;
+							$('tr:has(".tpl-online") .tpl_name', data).each(function() {
+								FA.Install.checkTemplate.result(1, $(this).text(), 2);
+							});
+						});
+					}
+				});
 			},
 			
 			result: function(type, template, zone)
