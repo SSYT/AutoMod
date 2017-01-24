@@ -1,3 +1,10 @@
+/*
+	@ Module of Automod Installer
+	@ https://ssyt.github.io/AutoMod/
+	@ Script created and develop by SSYT 2.0
+	@name Top Five Mod
+*/
+
 !function() {
   if(!window.FA) window.FA = {};
   window.FA.TopFive = {
