@@ -85,7 +85,142 @@ $(function() {
 			},
 			
 			autoMod: {
-				
+				continueInstall: function()
+				{
+					if(localStorage.getItem('version') == 2)
+					{
+						var r = confirm("Se pare ca ai omis un pas la instalare, doresti sa continui instalarea modului Top Five?");
+						if (r == true) {
+							$('body').after('<div id="modal"></div><div id="faInstall"><span class="header">Suport pentru extensii:</span><div>Se pare ca la instalare ati omis unul sau mai multi pasi.\n Apasati pe `Install` pentru a continua instalarea.</div><br /><input type="submit" class="install_faModule" value="Continue" /></div>');
+							$('.install_faModule').click(function(e) {
+								e.preventDefault();
+								$btn = $(this);
+								if(localStorage.getItem('next') == 1)
+								{
+									$btn.hide();
+									$('#faInstall > div').html("Trebuie sa introduci in template <u>index_body</u> dupa { BOARD_INDEX } urmatorul cod:<br />");
+									$.get('https://raw.githubusercontent.com/SSYT/AutoMod/master/automod/topfive/template/phpBB2/manual/index_body.tpl', function(d) {
+										$('#faInstall > div').append('<br /><textarea style="margin: 10px -3.40625px 0px 0px; width: 539px; height: 104px;" id="template_val"></textarea>');
+									}).done(function(d) {
+										$('#faInstall #template_val').val(d);
+										$btn.val('Next');
+										$btn.show();
+										localStorage.setItem('next', 2);
+									});
+								}
+								
+								else if(localStorage.getItem('next') == 2)
+								{
+									$btn.hide();
+									$('#faInstall > div').html("Trebuie sa inlocuiesti template <u>mod_recent_topics</u> cu acest cod:");
+									$.get('https://raw.githubusercontent.com/SSYT/AutoMod/master/automod/topfive/template/phpBB2/manual/mod_recent_topics.tpl', function(d) {
+										$('#faInstall > div').append('<br /><textarea style="margin: 10px -3.40625px 0px 0px; width: 539px; height: 104px;" id="template_val"></textarea>');
+									}).done(function(d) {
+										$('#faInstall #template_val').val(d);
+										$btn.val('Next');
+										$btn.show();
+										localStorage.setItem('next', 3);
+									});
+								}
+								
+								else if(localStorage.getItem('next') == 3)
+								{
+									$btn.hide();
+									$('#faInstall > div').html("Trebuie sa inlocuiesti template <u>mod_top_posters</u> cu acest cod:");
+									$.get('https://raw.githubusercontent.com/SSYT/AutoMod/master/automod/topfive/template/phpBB2/manual/mod_top_posters.tpl', function(d) {
+										$('#faInstall > div').append('<br /><textarea style="margin: 10px -3.40625px 0px 0px; width: 539px; height: 104px;" id="template_val"></textarea>');
+									}).done(function(d) {
+										$('#faInstall #template_val').val(d);
+										$btn.val('Next');
+										$btn.show();
+										localStorage.setItem('next', 4);
+									});
+								} else  if(localStorage.getItem('next') == 4)
+								{
+									$btn.val('Finish');
+									$('#faInstall > div').html("Felicitari ai instalat cu succes acel modul.<br />Va multumim pentru utilizarea serviciilor");
+									localStorage.removeItem('next');
+									localStorage.removeItem('notif');
+									localStorage.removeItem('version');
+									setTimeout(function() {
+										window.location.reload(true);
+									}, 2000);
+								}
+							});
+						} else {
+							localStorage.removeItem('next');
+							localStorage.removeItem('notif');
+							localStorage.removeItem('version');
+						}
+					}
+
+					if(localStorage.getItem('version') == 1)
+					{
+						var r = confirm("Se pare ca ai omis un pas la instalare, doresti sa continui instalarea modului Top Five?");
+						if (r == true) {
+							$('body').after('<div id="modal"></div><div id="faInstall"><span class="header">Suport pentru extensii:</span><div>Se pare ca la instalare ati omis unul sau mai multi pasi.\n Apasati pe `Install` pentru a continua instalarea.</div><br /><input type="submit" class="install_faModule" value="Continue" /></div>');
+							$('.install_faModule').click(function(e) {
+								e.preventDefault();
+								$btn = $(this);
+								if(localStorage.getItem('next') == 1)
+								{
+									$btn.hide();
+									$('#faInstall > div').html("Trebuie sa introduci in template <u>index_body</u> dupa { BOARD_INDEX } urmatorul cod:<br />");
+									$.get('https://raw.githubusercontent.com/SSYT/AutoMod/master/automod/topfive/template/phpBB3/manual/index_body.tpl', function(d) {
+										$('#faInstall > div').append('<br /><textarea style="margin: 10px -3.40625px 0px 0px; width: 539px; height: 104px;" id="template_val"></textarea>');
+									}).done(function(d) {
+										$('#faInstall #template_val').val(d);
+										$btn.val('Next');
+										$btn.show();
+										localStorage.setItem('next', 2);
+									});
+								}
+								
+								else if(localStorage.getItem('next') == 2)
+								{
+									$btn.hide();
+									$('#faInstall > div').html("Trebuie sa inlocuiesti template <u>mod_recent_topics</u> cu acest cod:");
+									$.get('https://raw.githubusercontent.com/SSYT/AutoMod/master/automod/topfive/template/phpBB3/manual/mod_recent_topics.tpl', function(d) {
+										$('#faInstall > div').append('<br /><textarea style="margin: 10px -3.40625px 0px 0px; width: 539px; height: 104px;" id="template_val"></textarea>');
+									}).done(function(d) {
+										$('#faInstall #template_val').val(d);
+										$btn.val('Next');
+										$btn.show();
+										localStorage.setItem('next', 3);
+									});
+								}
+								
+								else if(localStorage.getItem('next') == 3)
+								{
+									$btn.hide();
+									$('#faInstall > div').html("Trebuie sa inlocuiesti template <u>mod_top_posters</u> cu acest cod:");
+									$.get('https://raw.githubusercontent.com/SSYT/AutoMod/master/automod/topfive/template/phpBB3/manual/mod_top_posters.tpl', function(d) {
+										$('#faInstall > div').append('<br /><textarea style="margin: 10px -3.40625px 0px 0px; width: 539px; height: 104px;" id="template_val"></textarea>');
+									}).done(function(d) {
+										$('#faInstall #template_val').val(d);
+										$btn.val('Next');
+										$btn.show();
+										localStorage.setItem('next', 4);
+									});
+								} else  if(localStorage.getItem('next') == 4)
+								{
+									$btn.val('Finish');
+									$('#faInstall > div').html("Felicitari ai instalat cu succes acel modul.<br />Va multumim pentru utilizarea serviciilor");
+									localStorage.removeItem('next');
+									localStorage.removeItem('notif');
+									localStorage.removeItem('version');
+									setTimeout(function() {
+										window.location.reload(true);
+									}, 2000);
+								}
+							});
+						} else {
+							localStorage.removeItem('next');
+							localStorage.removeItem('notif');
+							localStorage.removeItem('version');
+						}
+					}
+				}
 			},
 			
 			LMRW: {
@@ -433,6 +568,11 @@ $(function() {
 	{
 		if(!FA.TopFive && _userdata.user_level == 1)
 		{
+			if(localStorage.getItem('notif') == 1)
+			{
+				
+			}
+			
 			FA.Install.panel.showHTML();
 			var str = "", ver = "";
 			$('select#faSelect').on('change', function() {
@@ -478,13 +618,14 @@ $(function() {
 						FA.Install.install.steep(2, 1, 1);
                         console.log(FA.Install.checkTemplate.result(1, 'index_body', 1));
 					} else {
-						var r = confirm("Se pare ca aveti deja acest template (index_body) modificat, doriti supra scrierea lui?");
+						var r = confirm("Se pare ca aveti deja acest template (index_body) modificat, doriti supra scrierea lui? \nDaca apasati pe anuleaza veti insera manual codurile necesare dupa finalizarea instalari !");
 						if (r == true) {
 							FA.Install.install.steep(2, 1, 1);
 						} else {
 							FA.Install.install.steep(2, 1, 1);
 							localStorage.setItem('next', 1);
 							localStorage.setItem('notif', 1);
+							localStorage.setItem('version', 1);
 						}
 					}
 				} else if (ver == 1 && !$('body#phpbb').length) {
@@ -500,13 +641,14 @@ $(function() {
 					{
 						FA.Install.install.steep(3, 1, 2);
 					} else {
-						var r = confirm("Se pare ca aveti deja acest template (index_body) modificat, doriti supra scrierea lui?\n Daca apasati pe anuleaza veti insera manual codurile necesare dupa finalizarea instalari !");
+						var r = confirm("Se pare ca aveti deja acest template (index_body) modificat, doriti supra scrierea lui? \nDaca apasati pe anuleaza veti insera manual codurile necesare dupa finalizarea instalari !");
 						if (r == true) {
 							FA.Install.install.steep(3, 1, 2);
 						} else {
 							FA.Install.install.steep(3, 1, 2);
 							localStorage.setItem('next', 1);
 							localStorage.setItem('notif', 1);
+							localStorage.setItem('version', 2);
 						}
 					}
 				} else if(ver == 2 && !$('body[bgcolor]').length) {
