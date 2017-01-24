@@ -1,19 +1,19 @@
 /*
   @desc Suport pentru extensii
   @author SSYT
-  @version 1.0a
+  @version 1.0b
 */
 
 $(function() {
 	if(!window.FA) window.FA = {};
-	if(window.FA.Install)
+	if(window.SSMod)
 	{
 		if(window.console)
 			console.warn("Auto mod has been detected running...");
 		return true;
 	}
 
-	window.FA.Install = {
+	window.SSMod = {
 		autoMod: true,
 		message: "",
 		version: 0,
@@ -24,24 +24,29 @@ $(function() {
 			{
 				var html = '<form name="install" method="post">'+
 					'<span class="desc">Suport pentru extensii este modulul ce va permite sa instalati diverse module/extensii pe platforma ForumGratuit.ro</span>'+
-					'<select id="faSelect"><option>Select an extension</option><option value="1">L.M.R.W (Last Register Members Today Widget)</option> <option value="2">T.F (Top Five)</option></select>'+
+					'<select id="faSelect"><option>Select an extension</option><option value="1">N.M.T (Newest Members Today)</option> <option value="2">T.F.M (Top Five Mod)</option></select>'+
 					'<input type="submit" name="post" value="Select" />'+
 				'</form>';
 				$('body').after('<div id="modal"></div><div id="faInstall"><span class="header">Suport pentru extensii</span>'+ html +'</div>');
 			}
 		},
 		
+		faPanel: {
+			add: SSMod.panel.showHTML(),
+			extension: {}
+		}
+		
 		checkTemplate:
 		{
 			main: function()
 			{
-				$.get('/admin/index.forum?mode=main&part=themes&sub=templates&tid=' + FA.Install.TID, function(response, status, xhr) {
+				$.get('/admin/index.forum?mode=main&part=themes&sub=templates&tid=' + SSMod.TID, function(response, status, xhr) {
 					if (xhr.status == 200) {
 						$('table.forumline', response).each(function() {
 							var tNumber = $('tr:has(".tpl-online")', this).length;
 							var data = this;
 							$('tr:has(".tpl-online") .tpl_name', data).each(function() {
-								FA.Install.checkTemplate.result(1, $(this).text(), 1);
+								SSMod.checkTemplate.result(1, $(this).text(), 1);
 							});
 						});
 					}
@@ -50,13 +55,13 @@ $(function() {
 			
 			portal: function()
 			{
-				$.get('/admin/index.forum?mode=portal&part=themes&sub=templates&tid=' + FA.Install.TID, function(response, status, xhr) {
+				$.get('/admin/index.forum?mode=portal&part=themes&sub=templates&tid=' + SSMod.TID, function(response, status, xhr) {
 					if (xhr.status == 200) {
 						$('table.forumline', response).each(function() {
 							var tNumber = $('tr:has(".tpl-online")', this).length;
 							var data = this;
 							$('tr:has(".tpl-online") .tpl_name', data).each(function() {
-								FA.Install.checkTemplate.result(1, $(this).text(), 2);
+								SSMod.checkTemplate.result(1, $(this).text(), 2);
 							});
 						});
 					}
@@ -85,6 +90,8 @@ $(function() {
 		
 		module: {
 			topFive: {
+				added: 1,
+				plugins: {},
 				install: function()
 				{
 					$('#faSelect').replaceWith('<select id="faSelectVer"><option >Select version</option><option value="1">phpBB3</option> <option value="2">phpBB2</option></select>');
@@ -232,31 +239,26 @@ $(function() {
 			},
 			
 			LMRW: {
-				
+				added: 1,
+				install: SSMod.install.steep(1, 1, 1),
+				plugins: {}
 			}
 		},
 		
 		install: {
 			steep: function(moduleID, steepID, version) {
 				// Add AutoMod Page
-				if(version == 1 && moduleID == 0 && steepID == 1)
+				if(version == 1 && moduleID == 99 && steepID == 1)
 				{
 					
 				}
 				
-				// L.M.R.W (Last Register Members Today Widget)
+				// N.M.T (Newest Members Today phpBB3)
 				if(version == 1 && moduleID == 1 && steepID == 1)
-				{
-					
-				}
-				
-				// T.F (Top Five phpBB2)
-				
-				if(version == 2 && moduleID == 3 && steepID == 1)
 				{
 					$('form[name="install"]').replaceWith('<div class="install_steep"><span>Start installing...<br /></span></div>');
 					$('.install_steep').append('Steep 1: Expect to activate the panel modules...<br />');
-					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&action=options&extended_admin=1&tid=' + FA.Install.TID, {
+					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&action=options&extended_admin=1&tid=' + SSMod.TID, {
 						"active": 1,
 						"col1width": 180,
 						"col3width": 0,
@@ -264,7 +266,88 @@ $(function() {
 						"space_col": 1,
 						"submit_manage": 1
 					}).done(function(d) {
-						FA.Install.install.steep(3, 2, 2);
+						SSMod.install.steep(1, 2, 1);
+					});
+				}
+				
+				else if(version == 1 && moduleID == 1 && steepID == 2)
+				{
+					$('.install_steep').append('Steep 1: Widgets have been activated successfully<br /><br />');
+					$('.install_steep').append('Steep 2: Create widget Newest Members Today ...<br />');
+					$.post('/admin/index.forum?part=modules&sub=portal&mode=create_index_mod&dest=admin_index_modules&extended_admin=1&tid=' + SSMod.TID, {
+						"mod_name": 'Newest Members Today',
+						"mod_table": 1,
+						"mod_title": 'Newest Members Today',
+						"mod_source": '<ul id="last_regMembers"></ul>',
+						"modid": 0,
+						"pid": -1,
+						"modtype": 1,
+						"mode": 'editsave_index_mod'
+					}).done(function(d) {
+						SSMod.install.steep(1, 3, 1);
+					});
+				}
+				
+				else if(version == 1 && moduleID == 1 && steepID == 3)
+				{
+					$('.install_steep').append('Steep 2: Newest Members Today was successfully created<br />');
+					$('.install_steep').append('Steep 2: Add widget Newest Members Today ...<br />');
+					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + SSMod.TID, {
+						"action": 'addnew',
+						"modid": 24,
+						"colid": 1,
+						"admin": 'on',
+						"mod": 'on',
+						"member": 'on',
+						"guest": 'on',
+						"submit": 1
+					}).done(function() {
+						SSMod.install.steep(1, 4, 1);
+					});
+				}
+				
+				else if(version == 1 && moduleID == 1 && steepID == 4)
+				{
+					$('.install_steep').append('Steep 2: Newest Members Today was successfully activated<br /><br />');
+					$('.install_steep').append('Steep 3: Script code generation module...<br />');
+					$.get('https://raw.githubusercontent.com/SSYT/SSMod/master/automod/javascript/widget/install.js', function(response, status, xhr)
+					{
+						if (xhr.status == 200) {
+							$('.install_steep').append('Steep 4: Script code generation complete ...<br />');
+							$('.install_steep').append('Steep 4: Script code installing ...<br />');
+							
+							$.post('/admin/index.forum?part=modules&sub=html&mode=js_edit&extended_admin=1&tid=' + SSMod.TID, {
+								"title": '[SSMod Modules] Newest Member Today',
+								"js_placement[]": 'allpages',
+								"content": response,
+								"mode": 'save'
+							}).done(function() {
+								$('.install_steep').append('Steep 4: Script code install complete ...<br /><br />');
+								$('.install_steep').append('<font color="green">Newest Member Today module has been installed.<br />Page auto reload after 5 secounds...</font><br />');
+								setTimeout(function() {
+									window.location.reload(true);
+								}, 5000);
+							});
+						}
+					});
+				}
+				
+				
+				// T.F (Top Five phpBB2)
+				
+				if(version == 2 && moduleID == 3 && steepID == 1)
+				{
+					$('form[name="install"]').replaceWith('<div class="install_steep"><span>Start installing...<br /></span></div>');
+					$('.install_steep').append('Steep 1: Expect to activate the panel modules...<br />');
+					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&action=options&extended_admin=1&tid=' + SSMod.TID, {
+						"active": 1,
+						"col1width": 180,
+						"col3width": 0,
+						"space_row": 0,
+						"space_col": 1,
+						"submit_manage": 1
+					}).done(function(d) {
+						SSMod.install.steep(3, 2, 2);
 					});
 				}
 				
@@ -272,7 +355,7 @@ $(function() {
 				{
 					$('.install_steep').append('Steep 1: Widgets have been activated successfully<br /><br />');
 					$('.install_steep').append('Steep 2: Add widget Recent Topics ...<br />');
-					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + FA.Install.TID, {
+					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + SSMod.TID, {
 						"action": "addnew",
 						"modid": 2,
 						"colid": 1,
@@ -282,7 +365,7 @@ $(function() {
 						"guest": 'on',
 						"submit": 1
 					}).done(function() {
-						FA.Install.install.steep(3, 3, 2);
+						SSMod.install.steep(3, 3, 2);
 					});
 				}
 				
@@ -290,7 +373,7 @@ $(function() {
 				{
 					$('.install_steep').append('Steep 2: Recently Widget topic was successfully activated<br /><br />');
 					$('.install_steep').append('Steep 3: Add widget top posters ...<br />');
-					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + FA.Install.TID, {
+					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + SSMod.TID, {
 						"action": "addnew",
 						"modid": 15,
 						"colid": 1,
@@ -300,11 +383,11 @@ $(function() {
 						"guest": 'on',
 						"submit": 1
 					}).done(function() {
-						if(FA.Install.checkTemplate.result(1, 'index_body', 1) == false)
+						if(SSMod.checkTemplate.result(1, 'index_body', 1) == false)
 						{
-							FA.Install.install.steep(3, 4, 2);
+							SSMod.install.steep(3, 4, 2);
 						} else {
-							FA.Install.install.steep(3, 7, 2);
+							SSMod.install.steep(3, 7, 2);
 						}
 					});
 				}
@@ -317,7 +400,7 @@ $(function() {
 					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/SSMod/topfive/template/phpBB2/index_body.tpl', function(response, status, xhr) {
 						if (xhr.status == 200) {
 							$('.install_steep').append('Steep 4: Index_body generation templates complete ...<br />');
-							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&t=110&l=main&extended_admin=1&tid=' + FA.Install.TID, {
+							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&t=110&l=main&extended_admin=1&tid=' + SSMod.TID, {
 								"template": response,
 								"t": 110,
 								"l": 'main',
@@ -325,9 +408,9 @@ $(function() {
 								"submit": 1
 							}).done(function() {
 								$('.install_steep').append('Steep 4: Index_body generation templates complete ...<br />');
-								$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=110&l=main&pub=1&tid=' + FA.Install.TID, function(response, status, xhr) {
+								$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=110&l=main&pub=1&tid=' + SSMod.TID, function(response, status, xhr) {
 									if (xhr.status == 200) {
-										FA.Install.install.steep(3, 5, 2);
+										SSMod.install.steep(3, 5, 2);
 									}
 								});
 							});
@@ -344,7 +427,7 @@ $(function() {
 					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/SSMod/topfive/template/phpBB2/mod_recent_topics.tpl', function(d) {
 						template += d;
 						$('.install_steep').append('Steep 5: Recent topics generation templates complete ...<br />');
-						$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_portal&t=904&l=portal&extended_admin=1&tid=' + FA.Install.TID, {
+						$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_portal&t=904&l=portal&extended_admin=1&tid=' + SSMod.TID, {
 							"template": template,
 							"t": 904,
 							"l": 'portal',
@@ -352,9 +435,9 @@ $(function() {
 							"submit": 1
 						}).done(function() {
 							$('.install_steep').append('Steep 5: Recent topics generation templates complete ...<br />');
-							$.post('http://animate.forumotion.net/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=904&l=portal&pub=1&tid=' + FA.Install.TID, function(response, status, xhr) {
+							$.post('http://animate.forumotion.net/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=904&l=portal&pub=1&tid=' + SSMod.TID, function(response, status, xhr) {
 								if (xhr.status == 200) {
-									FA.Install.install.steep(3, 6, 2);
+									SSMod.install.steep(3, 6, 2);
 								}
 							});
 						});
@@ -369,7 +452,7 @@ $(function() {
 					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/SSMod/topfive/template/phpBB2/mod_top_posters.tpl', function(d) {
 						template += d;
 						$('.install_steep').append('Steep 6: Top posters generation templates complete ...<br />');
-						$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_portal&t=912&l=portal&extended_admin=1&tid=' + FA.Install.TID, {
+						$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_portal&t=912&l=portal&extended_admin=1&tid=' + SSMod.TID, {
 							"template": template,
 							"t": 912,
 							"l": 'portal',
@@ -377,9 +460,9 @@ $(function() {
 							"submit": 1
 						}).done(function() {
 							$('.install_steep').append('Steep 6: Top posters generation templates complete ...<br />');
-							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=912&l=main&pub=1&tid=' + FA.Install.TID, function(response, status, xhr) {
+							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=912&l=main&pub=1&tid=' + SSMod.TID, function(response, status, xhr) {
 								if (xhr.status == 200) {
-									FA.Install.install.steep(3, 7, 2);
+									SSMod.install.steep(3, 7, 2);
 									$('.install_steep').append('Steep 6: Top posters templates has been successfully installed<br /><br />');
 								}
 							});
@@ -394,7 +477,7 @@ $(function() {
 						if (xhr.status == 200) {
 							$('.install_steep').append('Steep 7: Script code generation complete ...<br />');
 							$('.install_steep').append('Steep 7: Script code installing ...<br />');
-							$.post('/admin/index.forum?part=modules&sub=html&mode=js_edit&extended_admin=1&tid=' + FA.Install.TID, {
+							$.post('/admin/index.forum?part=modules&sub=html&mode=js_edit&extended_admin=1&tid=' + SSMod.TID, {
 								"title": '[FA Modules] Top Five',
 								"js_placement[]": 'allpages',
 								"content": response,
@@ -415,7 +498,7 @@ $(function() {
 				{
 					$('form[name="install"]').replaceWith('<div class="install_steep"><span>Start installing...<br /></span></div>');
 					$('.install_steep').append('Steep 1: Expect to activate the panel modules...<br />');
-					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&action=options&extended_admin=1&tid=' + FA.Install.TID, {
+					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&action=options&extended_admin=1&tid=' + SSMod.TID, {
 						"active": 1,
 						"col1width": 180,
 						"col3width": 0,
@@ -423,7 +506,7 @@ $(function() {
 						"space_col": 1,
 						"submit_manage": 1
 					}).done(function(d) {
-						FA.Install.install.steep(2, 2, 1);
+						SSMod.install.steep(2, 2, 1);
 					});
 				}
 				
@@ -431,7 +514,7 @@ $(function() {
 				{
 					$('.install_steep').append('Steep 1: Widgets have been activated successfully<br /><br />');
 					$('.install_steep').append('Steep 2: Add widget Recent Topics ...<br />');
-					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + FA.Install.TID, {
+					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + SSMod.TID, {
 						"action": "addnew",
 						"modid": 2,
 						"colid": 1,
@@ -441,7 +524,7 @@ $(function() {
 						"guest": 'on',
 						"submit": 1
 					}).done(function() {
-						FA.Install.install.steep(2, 3, 1);
+						SSMod.install.steep(2, 3, 1);
 					});
 				}
 				
@@ -449,7 +532,7 @@ $(function() {
 				{
 					$('.install_steep').append('Steep 2: Recently Widget topic was successfully activated<br /><br />');
 					$('.install_steep').append('Steep 3: Add widget top posters ...<br />');
-					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + FA.Install.TID, {
+					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + SSMod.TID, {
 						"action": "addnew",
 						"modid": 15,
 						"colid": 1,
@@ -459,12 +542,12 @@ $(function() {
 						"guest": 'on',
 						"submit": 1
 					}).done(function() {
-						if(FA.Install.checkTemplate.result(1, 'index_body', 1) == false)
+						if(SSMod.checkTemplate.result(1, 'index_body', 1) == false)
 						{
-							FA.Install.install.steep(2, 4, 1);
+							SSMod.install.steep(2, 4, 1);
 							$('.install_steep').append('Steep 3: Widget top post was successfully activated ...<br /><br />');
 						} else {
-							FA.Install.install.steep(2, 7, 1);
+							SSMod.install.steep(2, 7, 1);
 						}
 					});
 				}
@@ -476,7 +559,7 @@ $(function() {
 					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/SSMod/topfive/template/phpBB3/index_body.tpl', function(response, status, xhr) {
 						if (xhr.status == 200) {
 							$('.install_steep').append('Steep 4: Index_body generation templates complete ...<br />');
-							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&t=110&l=main&extended_admin=1&tid=' + FA.Install.TID, {
+							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&t=110&l=main&extended_admin=1&tid=' + SSMod.TID, {
 								"template": response,
 								"t": 110,
 								"l": 'main',
@@ -484,9 +567,9 @@ $(function() {
 								"submit": 1
 							}).done(function() {
 								$('.install_steep').append('Steep 4: Index_body generation templates complete ...<br />');
-								$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=110&l=main&pub=1&tid=' + FA.Install.TID, function(response, status, xhr) {
+								$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=110&l=main&pub=1&tid=' + SSMod.TID, function(response, status, xhr) {
 									if (xhr.status == 200) {
-										FA.Install.install.steep(2, 5, 1);
+										SSMod.install.steep(2, 5, 1);
 									}
 								});
 							});
@@ -503,7 +586,7 @@ $(function() {
 					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/SSMod/topfive/template/phpBB3/mod_recent_topics.tpl', function(d) {
 						template += d;
 						$('.install_steep').append('Steep 5: Recent topics generation templates complete ...<br />');
-						$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_portal&t=904&l=portal&extended_admin=1&tid=' + FA.Install.TID, {
+						$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_portal&t=904&l=portal&extended_admin=1&tid=' + SSMod.TID, {
 							"template": template,
 							"t": 904,
 							"l": 'portal',
@@ -511,9 +594,9 @@ $(function() {
 							"submit": 1
 						}).done(function() {
 							$('.install_steep').append('Steep 5: Recent topics generation templates complete ...<br />');
-							$.post('http://animate.forumotion.net/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=904&l=portal&pub=1&tid=' + FA.Install.TID, function(response, status, xhr) {
+							$.post('http://animate.forumotion.net/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=904&l=portal&pub=1&tid=' + SSMod.TID, function(response, status, xhr) {
 								if (xhr.status == 200) {
-									FA.Install.install.steep(2, 6, 1);
+									SSMod.install.steep(2, 6, 1);
 								}
 							});
 						});
@@ -528,7 +611,7 @@ $(function() {
 					$.get('https://raw.githubusercontent.com/SSYT/FG-Modules/master/SSMod/topfive/template/phpBB3/mod_top_posters.tpl', function(d) {
 						template += d;
 						$('.install_steep').append('Steep 6: Top posters generation templates complete ...<br />');
-						$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_portal&t=912&l=portal&extended_admin=1&tid=' + FA.Install.TID, {
+						$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_portal&t=912&l=portal&extended_admin=1&tid=' + SSMod.TID, {
 							"template": template,
 							"t": 912,
 							"l": 'portal',
@@ -536,9 +619,9 @@ $(function() {
 							"submit": 1
 						}).done(function() {
 							$('.install_steep').append('Steep 6: Top posters generation templates complete ...<br />');
-							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=912&l=main&pub=1&tid=' + FA.Install.TID, function(response, status, xhr) {
+							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=912&l=main&pub=1&tid=' + SSMod.TID, function(response, status, xhr) {
 								if (xhr.status == 200) {
-									FA.Install.install.steep(2, 7, 1);
+									SSMod.install.steep(2, 7, 1);
 									$('.install_steep').append('Steep 6: Top posters templates has been successfully installed<br /><br />');
 								}
 							});
@@ -553,7 +636,7 @@ $(function() {
 						if (xhr.status == 200) {
 							$('.install_steep').append('Steep 7: Script code generation complete ...<br />');
 							$('.install_steep').append('Steep 7: Script code installing ...<br />');
-							$.post('/admin/index.forum?part=modules&sub=html&mode=js_edit&extended_admin=1&tid=' + FA.Install.TID, {
+							$.post('/admin/index.forum?part=modules&sub=html&mode=js_edit&extended_admin=1&tid=' + SSMod.TID, {
 								"title": '[FA Modules] Top Five',
 								"js_placement[]": 'allpages',
 								"content": response,
@@ -572,16 +655,16 @@ $(function() {
 		}
 	};
 	
-	if(FA.Install)
+	if(SSMod)
 	{
 		if(!FA.TopFive && _userdata.user_level == 1)
 		{
 			if(localStorage.getItem('notif') == 1)
 			{
-				FA.Install.module.autoMod.continueInstall();
+				SSMod.module.autoMod.continueInstall();
 			}
 			
-			FA.Install.panel.showHTML();
+			SSMod.panel.showHTML();
 			var str = "", ver = "";
 			$('select#faSelect').on('change', function() {
 				$("option:selected", this).each(function() {
@@ -602,15 +685,12 @@ $(function() {
 				
 				if(str == 1)
 				{
-					$('div#faInstall form[name="install"] .desc').after("<font class='font-desc' color='red'>* Pentru acest modul nu este disponibila instalarea</font>");
-					setTimeout(function() {
-						$('.font-desc').remove();
-					}, 3000);
+					SSMod.module.LMRW.install;
 				}
 
 				if(str == 2)
 				{
-                    FA.Install.module.topFive.install();
+                    SSMod.module.topFive.install();
 				}
 				
 				$('select#faSelectVer').on('change', function() {
@@ -621,16 +701,16 @@ $(function() {
 			
 				if(ver == 1 && $('body#phpbb').length)
 				{
-					if(FA.Install.checkTemplate.result(1, 'index_body', 1) == false)
+					if(SSMod.checkTemplate.result(1, 'index_body', 1) == false)
 					{
-						FA.Install.install.steep(2, 1, 1);
-                        console.log(FA.Install.checkTemplate.result(1, 'index_body', 1));
+						SSMod.install.steep(2, 1, 1);
+                        console.log(SSMod.checkTemplate.result(1, 'index_body', 1));
 					} else {
 						var r = confirm("Se pare ca aveti deja acest template (index_body) modificat, doriti supra scrierea lui? \nDaca apasati pe anuleaza veti insera manual codurile necesare dupa finalizarea instalari !");
 						if (r == true) {
-							FA.Install.install.steep(2, 1, 1);
+							SSMod.install.steep(2, 1, 1);
 						} else {
-							FA.Install.install.steep(2, 1, 1);
+							SSMod.install.steep(2, 1, 1);
 							localStorage.setItem('next', 1);
 							localStorage.setItem('notif', 1);
 							localStorage.setItem('version', 1);
@@ -645,15 +725,15 @@ $(function() {
 				
 				if(ver == 2 && $('body[bgcolor]').length)
 				{
-					if(FA.Install.checkTemplate.result(1, 'index_body', 1) == false)
+					if(SSMod.checkTemplate.result(1, 'index_body', 1) == false)
 					{
-						FA.Install.install.steep(3, 1, 2);
+						SSMod.install.steep(3, 1, 2);
 					} else {
 						var r = confirm("Se pare ca aveti deja acest template (index_body) modificat, doriti supra scrierea lui? \nDaca apasati pe anuleaza veti insera manual codurile necesare dupa finalizarea instalari !");
 						if (r == true) {
-							FA.Install.install.steep(3, 1, 2);
+							SSMod.install.steep(3, 1, 2);
 						} else {
-							FA.Install.install.steep(3, 1, 2);
+							SSMod.install.steep(3, 1, 2);
 							localStorage.setItem('next', 1);
 							localStorage.setItem('notif', 1);
 							localStorage.setItem('version', 2);
