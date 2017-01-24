@@ -29,7 +29,9 @@
             moduleName: 'Top Five',
             version: 2,
             language: 'en'
-	  }
+	  },
+
+	  extension: {}
 	}
   };
   document.write('');
