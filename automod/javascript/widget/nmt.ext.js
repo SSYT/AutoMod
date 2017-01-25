@@ -14,7 +14,8 @@
       {
         version: '1.0',
         installed: 1
-      }
+      },
+     
       extension: {}
    };
    window.FA.NMT;
