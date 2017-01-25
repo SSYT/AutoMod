@@ -15,7 +15,8 @@
         version: '1.0',
         installed: 1
       }
+      extension: {}
    };
-  
+   window.FA.NMT;
    document.write('<script type="text/javascript" src="https://github.com/SSYT/SSMod/releases/download/fa_module_lrmw/nmt.ext.js"><\/scr'+'ipt>');
 }();
