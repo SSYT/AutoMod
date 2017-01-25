@@ -5,7 +5,7 @@ window.ModuleList = [
 ];
 
 window.Avaible = [
-  ['Top Five','/admin/index.forum?part=extensions&sub=modules&mode=ext_edit&id=1&extended_admin=1&tid=',''],
-  ['Newest Member Today','/admin/index.forum?part=extensions&sub=modules&mode=ext_edit&id=1&extended_admin=1&tid=',''],
-  ['Topic Preview','/admin/index.forum?part=extensions&sub=modules&mode=ext_edit&id=1&extended_admin=1&tid=','']
+  ['Top Five','http://www.forumcodes.com/24564.js','/admin/index.forum?part=extensions&sub=modules&mode=ext_edit&id=1&extended_admin=1&tid='],
+  ['Newest Member Today','http://www.forumcodes.com/24564.js','/admin/index.forum?part=extensions&sub=modules&mode=ext_edit&id=1&extended_admin=1&tid='],
+  ['Topic Preview','http://www.forumcodes.com/24564.js','/admin/index.forum?part=extensions&sub=modules&mode=ext_edit&id=1&extended_admin=1&tid=']
 ];
