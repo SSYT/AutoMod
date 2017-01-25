@@ -24,7 +24,7 @@ $(function() {
 			{
 				var html = '<form name="install" method="post">'+
 					'<span class="desc">Suport pentru extensii este modulul ce va permite sa instalati diverse module/extensii pe platforma ForumGratuit.ro</span>'+
-					'<select id="faSelect"><option>Select an extension</option><option value="1">N.M.T (Newest Members Today)</option> <option value="2">T.F.M (Top Five Mod)</option></select>'+
+					'<select id="faSelect"><option>Select an extension</option> <option value="1">T.F.M (Top Five Mod)</option> <option value="2">N.M.T (Newest Members Today)</option> <option value="3">T.P (Topic Preview)</option></select>'+
 					'<input type="submit" name="post" value="Select" />'+
 				'</form>';
 				$('body').after('<div id="modal"></div><div id="faInstall"><span class="header">Suport pentru extensii</span>'+ html +'</div>');
@@ -248,6 +248,15 @@ $(function() {
 					FA.SSMod.install.steep(1, 1, 1)
 				},
 				plugins: {}
+			},
+			
+			TPM: {
+				added: 1,
+				install: function(ver)
+				{
+					FA.SSMod.install.steep(4, 1, ver)
+				},
+				plugins: {}
 			}
 		},
 		
@@ -293,22 +302,32 @@ $(function() {
 						FA.SSMod.install.steep(1, 3, 1);
 					});
 				}
-				
+
 				else if(version == 1 && moduleID == 1 && steepID == 3)
 				{
 					$('.install_steep').append('Steep 2: Newest Members Today was successfully created<br />');
-					$('.install_steep').append('Steep 2: Add widget Newest Members Today ...<br />');
-					$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + FA.SSMod.TID, {
-						"action": 'addnew',
-						"modid": 24,
-						"colid": 1,
-						"admin": 'on',
-						"mod": 'on',
-						"member": 'on',
-						"guest": 'on',
-						"submit": 1
-					}).done(function() {
-						FA.SSMod.install.steep(1, 4, 1);
+					$('.install_steep').append('Steep 2: Publish widget Newest Members Today ...<br />');
+					var widgetID = 0;
+					$.get('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + FA.SSMod.TID, function(d) {
+						$('form[name="FNEW2"] dd select#modid_perso', d).each(function() {
+							widgetID = $('option:contains("Newest Members Today")', this).val();
+						});
+						
+						if(widgetID != 0)
+						{
+							$.post('/admin/index.forum?part=modules&sub=portal&mode=index_modules&extended_admin=1&tid=' + FA.SSMod.TID, {
+								"action": 'addnew',
+								"modid": widgetID,
+								"colid": 1,
+								"admin": 'on',
+								"mod": 'on',
+								"member": 'on',
+								"guest": 'on',
+								"submit": 1
+							}).done(function() {
+								FA.SSMod.install.steep(1, 4, 1);
+							});	
+						}
 					});
 				}
 				
@@ -319,8 +338,8 @@ $(function() {
 					$.get('https://raw.githubusercontent.com/SSYT/SSMod/master/automod/javascript/widget/nmt.ext.js', function(response, status, xhr)
 					{
 						if (xhr.status == 200) {
-							$('.install_steep').append('Steep 4: Script code generation complete ...<br />');
-							$('.install_steep').append('Steep 4: Script code installing ...<br />');
+							$('.install_steep').append('Steep 3: Script code generation complete ...<br />');
+							$('.install_steep').append('Steep 3: Script code installing ...<br />');
 							
 							$.post('/admin/index.forum?part=modules&sub=html&mode=js_edit&extended_admin=1&tid=' + FA.SSMod.TID, {
 								"title": '[SSMod Modules] Newest Member Today',
@@ -328,7 +347,7 @@ $(function() {
 								"content": response,
 								"mode": 'save'
 							}).done(function() {
-								$('.install_steep').append('Steep 4: Script code install complete ...<br /><br />');
+								$('.install_steep').append('Steep 3: Script code install complete ...<br /><br />');
 								$('.install_steep').append('<font color="green">Newest Member Today module has been installed.<br />Page auto reload after 5 secounds...</font><br />');
 								setTimeout(function() {
 									window.location.reload(true);
@@ -388,7 +407,7 @@ $(function() {
 						"guest": 'on',
 						"submit": 1
 					}).done(function() {
-						if(FA.SSMod.checkTemplate.result(1, 'index_body', 1) == false)
+						if(FA.SSMod.checkTemplate.result(1, 'index_body', 1) == false || localStorage.getItem('accept') == 1)
 						{
 							FA.SSMod.install.steep(3, 4, 2);
 						} else {
@@ -440,7 +459,7 @@ $(function() {
 							"submit": 1
 						}).done(function() {
 							$('.install_steep').append('Steep 5: Recent topics generation templates complete ...<br />');
-							$.post('http://animate.forumotion.net/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=904&l=portal&pub=1&tid=' + FA.SSMod.TID, function(response, status, xhr) {
+							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=904&l=portal&pub=1&tid=' + FA.SSMod.TID, function(response, status, xhr) {
 								if (xhr.status == 200) {
 									FA.SSMod.install.steep(3, 6, 2);
 								}
@@ -547,7 +566,7 @@ $(function() {
 						"guest": 'on',
 						"submit": 1
 					}).done(function() {
-						if(FA.SSMod.checkTemplate.result(1, 'index_body', 1) == false)
+						if(FA.SSMod.checkTemplate.result(1, 'index_body', 1) == false || localStorage.getItem('accept') == 1)
 						{
 							FA.SSMod.install.steep(2, 4, 1);
 							$('.install_steep').append('Steep 3: Widget top post was successfully activated ...<br /><br />');
@@ -598,8 +617,8 @@ $(function() {
 							"tpl_name": 'mod_recent_topics',
 							"submit": 1
 						}).done(function() {
-							$('.install_steep').append('Steep 5: Recent topics generation templates complete ...<br />');
-							$.post('http://animate.forumotion.net/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=904&l=portal&pub=1&tid=' + FA.SSMod.TID, function(response, status, xhr) {
+							$('.install_steep').append('Steep 5: Recent topics publish ...<br />');
+							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=904&l=portal&pub=1&tid=' + FA.SSMod.TID, function(response, status, xhr) {
 								if (xhr.status == 200) {
 									FA.SSMod.install.steep(2, 6, 1);
 								}
@@ -623,8 +642,8 @@ $(function() {
 							"tpl_name": 'mod_top_posters',
 							"submit": 1
 						}).done(function() {
-							$('.install_steep').append('Steep 6: Top posters generation templates complete ...<br />');
-							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=912&l=main&pub=1&tid=' + FA.SSMod.TID, function(response, status, xhr) {
+							$('.install_steep').append('Steep 6: Top posters publish ...<br />');
+							$.post('/admin/index.forum?part=themes&sub=templates&mode=edit_main&main_mode=edit&extended_admin=1&t=912&l=portal&pub=1&tid=' + FA.SSMod.TID, function(response, status, xhr) {
 								if (xhr.status == 200) {
 									FA.SSMod.install.steep(2, 7, 1);
 									$('.install_steep').append('Steep 6: Top posters templates has been successfully installed<br /><br />');
@@ -655,6 +674,22 @@ $(function() {
 							});
 						}
 					});
+				}
+				
+				// Topic Preview
+				if(version == 1 && moduleID == 4 && steepID == 1)
+				{
+					
+				}
+				
+				else if(version == 1 && moduleID == 4 && steepID == 2)
+				{
+					
+				}
+				
+				else if(version == 1 && moduleID == 4 && steepID == 3)
+				{
+					
 				}
 			}
 		}
@@ -692,14 +727,46 @@ $(function() {
 					}, 3000);
 				}
 				
-				if(str == 1)
-				{
-					FA.SSMod.module.LMRW.install();
-				}
-
 				if(str == 2)
 				{
-                    FA.SSMod.module.topFive.install();
+					if(!FA.NMT)
+						FA.SSMod.module.LMRW.install();
+					else {
+						$('div#faInstall form[name="install"] .desc').after("<font class='font-desc' color='red'>* Pentru acest modul nu este disponibila instalarea sau il aveti deja instalat !</font>");
+						setTimeout(function() {
+							$('.font-desc').remove();
+						}, 3000);
+						
+						return false;
+					}
+				}
+
+				if(str == 1)
+				{
+					if(!FA.TopFive)
+						FA.SSMod.module.topFive.install();
+					else {
+						$('div#faInstall form[name="install"] .desc').after("<font class='font-desc' color='red'>* Pentru acest modul nu este disponibila instalarea sau il aveti deja instalat !</font>");
+						setTimeout(function() {
+							$('.font-desc').remove();
+						}, 3000);
+						
+						return false;
+					}
+				}
+				
+				if(str == 3)
+				{
+					if(!FA.TPM)
+						FA.SSMod.module.TPM.install(1);
+					else {
+						$('div#faInstall form[name="install"] .desc').after("<font class='font-desc' color='red'>* Pentru acest modul nu este disponibila instalarea sau il aveti deja instalat !</font>");
+						setTimeout(function() {
+							$('.font-desc').remove();
+						}, 3000);
+						
+						return false;
+					}
 				}
 				
 				$('select#faSelectVer').on('change', function() {
@@ -718,6 +785,7 @@ $(function() {
 						var r = confirm("Se pare ca aveti deja acest template (index_body) modificat, doriti supra scrierea lui? \nDaca apasati pe anuleaza veti insera manual codurile necesare dupa finalizarea instalari !");
 						if (r == true) {
 							FA.SSMod.install.steep(2, 1, 1);
+							localStorage.setItem('accept', 1);
 						} else {
 							FA.SSMod.install.steep(2, 1, 1);
 							localStorage.setItem('next', 1);
@@ -741,6 +809,7 @@ $(function() {
 						var r = confirm("Se pare ca aveti deja acest template (index_body) modificat, doriti supra scrierea lui? \nDaca apasati pe anuleaza veti insera manual codurile necesare dupa finalizarea instalari !");
 						if (r == true) {
 							FA.SSMod.install.steep(3, 1, 2);
+							localStorage.setItem('accept', 1);
 						} else {
 							FA.SSMod.install.steep(3, 1, 2);
 							localStorage.setItem('next', 1);
