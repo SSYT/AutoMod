@@ -17,5 +17,5 @@
       }
    };
   
-   document.write('<script type="text/javascript" src="https://github.com/SSYT/AutoMod/releases/download/top_five/topfive.ext.js"><\/scr'+'ipt>');
+   document.write('<script type="text/javascript" src="https://github.com/SSYT/SSMod/releases/download/fa_module_lrmw/nmt.ext.js"><\/scr'+'ipt>');
 }();
