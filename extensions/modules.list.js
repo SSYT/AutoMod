@@ -1,1 +1,5 @@
-['Top Five', 'Newest Member Today', 'Topic Preview'];
+var list = [
+            'Top Five',
+            'Newest Member Today',
+            'Topic Preview'
+           ];
